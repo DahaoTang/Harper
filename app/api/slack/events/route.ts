@@ -24,16 +24,11 @@ export async function POST(req: NextRequest) {
   const userText = event.text;
   const channel = event.channel;
 
-  // Respond immediately to Slack to prevent retries
-  const response = NextResponse.json({ status: "ok" });
+  const result = await handleIntent(userText, channel);
 
-  // Process the event asynchronously
-  (async () => {
-    const result = await handleIntent(userText, channel);
-    if (result?.text) {
-      await postSlackMessage(channel, result.text);
-    }
-  })();
+  if (result?.text) {
+    await postSlackMessage(channel, result.text);
+  }
 
-  return response;
+  return NextResponse.json({ status: "ok" });
 }

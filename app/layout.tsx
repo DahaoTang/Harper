@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ns} antialiased`}>{children}</body>
+      <body className={`${ns.className}`}>{children}</body>
     </html>
   );
 }

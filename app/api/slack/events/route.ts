@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   const userText = event.text;
   const channel = event.channel;
 
-  // Respond immediately to Slack to acknowledge receipt
+  // Respond immediately to Slack to prevent retries
   const response = NextResponse.json({ status: "ok" });
 
   // Process the event asynchronously

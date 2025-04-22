@@ -1,9 +1,7 @@
-// lib/nlp.ts
-
 import { OpenAI } from "openai";
 import { handleGeneralIntent } from "./intents/general";
-// import { handleTrelloIntent } from './intents/trello'
-// import { handleGitHubIntent } from './intents/github'
+// import { handleTrelloIntent } from "./intents/trello";
+// import { handleGitHubIntent } from "./intents/github";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
@@ -14,15 +12,11 @@ export async function handleIntent(message: string, channel: string) {
 
   switch (intentType) {
     case "trello":
-      // return handleTrelloIntent(message, channel)
-      return {
-        text: "Trello handling is not yet enabled.",
-      };
+      // return handleTrelloIntent(message, channel);
+      return { text: "Trello handling is not yet enabled." };
     case "github":
-      // return handleGitHubIntent(message, channel)
-      return {
-        text: "GitHub handling is not yet enabled.",
-      };
+      // return handleGitHubIntent(message, channel);
+      return { text: "GitHub handling is not yet enabled." };
     default:
       return handleGeneralIntent(message, channel);
   }

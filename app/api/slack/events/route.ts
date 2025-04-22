@@ -1,0 +1,32 @@
+import { NextRequest, NextResponse } from "next/server";
+import { handleIntent } from "@/lib/nlp";
+import { postSlackMessage } from "@/lib/slack";
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+
+  if (body.type === "url_verification") {
+    return NextResponse.json({ challenge: body.challenge });
+  }
+
+  const event = body.event;
+
+  if (
+    !event ||
+    event.subtype === "bot_message" ||
+    event.type !== "app_mention"
+  ) {
+    return NextResponse.json({ status: "ignored" });
+  }
+
+  const userText = event.text;
+  const channel = event.channel;
+
+  const result = await handleIntent(userText, channel);
+
+  if (result?.text) {
+    await postSlackMessage(channel, result.text);
+  }
+
+  return NextResponse.json({ status: "ok" });
+}

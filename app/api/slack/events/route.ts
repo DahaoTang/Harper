@@ -5,12 +5,14 @@ import { postSlackMessage } from "@/lib/slack";
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
+  // Handle Slack URL verification challenge
   if (body.type === "url_verification") {
     return NextResponse.json({ challenge: body.challenge });
   }
 
   const event = body.event;
 
+  // Ignore bot messages and non-app_mention events
   if (
     !event ||
     event.subtype === "bot_message" ||
@@ -22,11 +24,16 @@ export async function POST(req: NextRequest) {
   const userText = event.text;
   const channel = event.channel;
 
-  const result = await handleIntent(userText, channel);
+  // Respond immediately to Slack to acknowledge receipt
+  const response = NextResponse.json({ status: "ok" });
 
-  if (result?.text) {
-    await postSlackMessage(channel, result.text);
-  }
+  // Process the event asynchronously
+  (async () => {
+    const result = await handleIntent(userText, channel);
+    if (result?.text) {
+      await postSlackMessage(channel, result.text);
+    }
+  })();
 
-  return NextResponse.json({ status: "ok" });
+  return response;
 }

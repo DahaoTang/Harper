@@ -5,6 +5,22 @@ import { IntentType } from "@/lib/types/intent";
  * Detects the intent type from a message using OpenAI
  */
 export async function detectIntentType(message: string): Promise<IntentType> {
+  // Welcome patterns
+  const welcomePatterns = [
+    /^hi\s*$/i,
+    /^hello\s*$/i,
+    /^hey\s*$/i,
+    /^good\s+morning\s*$/i,
+    /^good\s+afternoon\s*$/i,
+    /^good\s+evening\s*$/i,
+    /^help\s*$/i,
+    /^intro\s*$/i,
+    /^introduction\s*$/i,
+    /^get\s+started\s*$/i,
+    /^what\s+can\s+you\s+do\s*$/i,
+    /^what\s+are\s+your\s+capabilities\s*$/i,
+  ];
+
   // Quick pattern matching for clear Linear card operations
   const linearPatterns = [
     /linear\s+card/i,
@@ -32,7 +48,14 @@ export async function detectIntentType(message: string): Promise<IntentType> {
     /github\s+repository/i,
   ];
 
-  // Check for Linear patterns first
+  // Check for Welcome patterns first
+  for (const pattern of welcomePatterns) {
+    if (pattern.test(message)) {
+      return "welcome";
+    }
+  }
+
+  // Check for Linear patterns
   for (const pattern of linearPatterns) {
     if (pattern.test(message)) {
       return "linear";
@@ -47,11 +70,12 @@ export async function detectIntentType(message: string): Promise<IntentType> {
   }
 
   // If no clear patterns, use AI classification for more nuanced messages
-  const prompt = `Classify the following Slack message into one of: "general", "linear", or "github".
+  const prompt = `Classify the following Slack message into one of: "welcome", "general", "linear", or "github".
   
+Welcome refers to greetings, introductions, or requests for help on how to use Harper.
 Linear refers to the Linear issue tracking system (cards, tasks, tickets, etc.)
 GitHub refers to GitHub-related operations (issues, pull requests, repositories, etc.)
-General is anything conversational or not related to Linear or GitHub.
+General is anything conversational or not related to welcome, Linear, or GitHub.
   
 Message: "${message}"
 Intent:`;
@@ -63,6 +87,7 @@ Intent:`;
 
   const intentText = result?.toLowerCase().trim() || "";
 
+  if (intentText.includes("welcome")) return "welcome";
   if (intentText.includes("linear")) return "linear";
   if (intentText.includes("github")) return "github";
   return "general";

@@ -1,4 +1,8 @@
 import { generateChatCompletion } from "@/lib/adapters/openai/api";
+import {
+  HARPER_FALLBACK_RESPONSE,
+  HARPER_SYSTEM_PROMPT,
+} from "@/lib/config/harper";
 import { IntentContext, IntentResponse } from "@/lib/types/intent";
 
 /**
@@ -13,10 +17,11 @@ export async function handleGeneralIntent(
   );
 
   const content = await generateChatCompletion([
+    { role: "system", content: HARPER_SYSTEM_PROMPT },
     { role: "user", content: context.message },
   ]);
 
   return {
-    text: content || "I'm not sure how to respond to that.",
+    text: content || HARPER_FALLBACK_RESPONSE,
   };
 }

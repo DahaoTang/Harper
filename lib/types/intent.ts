@@ -1,7 +1,7 @@
 /**
  * Supported intent types
  */
-export type IntentType = "general" | "linear" | "github";
+export type IntentType = "general" | "linear" | "github" | "welcome";
 
 /**
  * Response from an intent handler

@@ -1,4 +1,7 @@
-export async function postSlackMessage(channel: string, text: string) {
+/**
+ * Post a message to a Slack channel
+ */
+export async function postMessage(channel: string, text: string) {
   const res = await fetch("https://slack.com/api/chat.postMessage", {
     method: "POST",
     headers: {
@@ -11,5 +14,8 @@ export async function postSlackMessage(channel: string, text: string) {
   const data = await res.json();
   if (!data.ok) {
     console.error("Slack API error:", data);
+    throw new Error(`Slack API error: ${JSON.stringify(data)}`);
   }
+
+  return data;
 }

@@ -1,6 +1,7 @@
 import { IntentContext, IntentResponse } from "@/lib/types/intent";
 import { detectIntentType } from "./detector";
 import { handleGeneralIntent } from "@/lib/services/handlers/general";
+import { handleLinearIntent } from "@/lib/services/handlers/linear";
 
 /**
  * Routes a message to the appropriate intent handler
@@ -12,9 +13,7 @@ export async function routeIntent(
 
   switch (intentType) {
     case "linear":
-      return {
-        text: "Linear handling is not yet implemented.",
-      };
+      return handleLinearIntent(context);
     case "github":
       return {
         text: "GitHub handling is not yet implemented.",

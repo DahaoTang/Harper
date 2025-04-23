@@ -1,3 +1,3 @@
-# MetaBot
+# Harper
 
 A chat bot for internal for ProteHome

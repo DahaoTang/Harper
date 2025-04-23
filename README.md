@@ -1,5 +1,7 @@
 # Harper
 
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+
 Harper is an AI-powered productivity assistant that bridges communication between team chat platforms and project management tools. Currently focused on Slack-to-Linear integration, Harper transforms natural language conversations into structured workflow actions, eliminating context switching between applications.
 
 While today Harper excels at Linear issue tracking through Slack, its modular architecture is designed for expansion to GitHub, Jira, Notion, and other productivity platforms. The vision is to create a unified interface for managing all your development and project workflows through simple, natural language conversations.
@@ -78,4 +80,5 @@ Contributions are welcome! Please see our contributing guidelines for more detai
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) License.  
+You are free to use, modify, and share this code **non-commercially** with attribution.
